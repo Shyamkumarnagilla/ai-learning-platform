@@ -78,24 +78,34 @@ const Home = () => {
                     icon={<Brain color="var(--primary)" />}
                     title="AI Summarization"
                     description="Transform long lectures and articles into concise, actionable summaries instantly."
+                    onClick={() => navigate('/summarizer')}
                 />
                 <FeatureCard
                     icon={<Target color="var(--secondary)" />}
                     title="Smart Quiz Generation"
                     description="Test your knowledge with AI-generated quizzes tailored to your learning material."
+                    onClick={() => navigate('/mcq')}
                 />
                 <FeatureCard
                     icon={<BookOpen color="var(--accent)" />}
                     title="Personalized Roadmap"
                     description="Get a custom study plan that adapts to your pace and understanding."
+                    onClick={() => { }}
                 />
             </div>
         </div>
     );
 };
 
-const FeatureCard = ({ icon, title, description }) => (
-    <div className="glass" style={{ padding: '2.5rem', borderRadius: '2rem', transition: 'transform 0.3s ease' }}
+const FeatureCard = ({ icon, title, description, onClick }) => (
+    <div className="glass"
+        onClick={onClick}
+        style={{
+            padding: '2.5rem',
+            borderRadius: '2rem',
+            transition: 'transform 0.3s ease',
+            cursor: onClick ? 'pointer' : 'default'
+        }}
         onMouseEnter={(e) => e.currentTarget.style.transform = 'translateY(-10px)'}
         onMouseLeave={(e) => e.currentTarget.style.transform = 'translateY(0)'}>
         <div style={{

@@ -1,14 +1,17 @@
 import { useState } from "react";
-import { Sparkles, Send, Copy, RotateCcw } from 'lucide-react';
+import { Sparkles, Send, Copy, RotateCcw, Brain } from 'lucide-react';
+import { useNavigate } from "react-router-dom";
+import { useShared } from "../context/SharedContext";
 import "../styles/summarizer.css";
 
 function Summarizer() {
-  const [text, setText] = useState("");
+  const navigate = useNavigate();
+  const { sharedText, setSharedText } = useShared();
   const [summary, setSummary] = useState("");
   const [loading, setLoading] = useState(false);
 
   const handleSummarize = async () => {
-    if (!text.trim()) return;
+    if (!sharedText.trim()) return;
 
     setLoading(true);
     setSummary("");
@@ -19,7 +22,7 @@ function Summarizer() {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ text }),
+        body: JSON.stringify({ text: sharedText }),
       });
 
       const data = await response.json();
@@ -57,15 +60,15 @@ function Summarizer() {
               transition: 'border-color 0.3s ease'
             }}
             placeholder="Enter long text here..."
-            value={text}
-            onChange={(e) => setText(e.target.value)}
+            value={sharedText}
+            onChange={(e) => setSharedText(e.target.value)}
             onFocus={(e) => e.target.style.borderColor = 'var(--primary)'}
             onBlur={(e) => e.target.style.borderColor = 'var(--glass-border)'}
           />
 
           <div style={{ display: 'flex', justifyContent: 'flex-end', marginTop: '1.5rem', gap: '1rem' }}>
             <button
-              onClick={() => { setText(""); setSummary(""); }}
+              onClick={() => { setSharedText(""); setSummary(""); }}
               style={{
                 display: 'flex',
                 alignItems: 'center',
@@ -83,7 +86,7 @@ function Summarizer() {
             <button
               className="pulse-primary"
               onClick={handleSummarize}
-              disabled={loading || !text.trim()}
+              disabled={loading || !sharedText.trim()}
               style={{
                 display: 'flex',
                 alignItems: 'center',
@@ -94,7 +97,7 @@ function Summarizer() {
                 border: 'none',
                 color: 'white',
                 fontWeight: '700',
-                cursor: (loading || !text.trim()) ? 'not-allowed' : 'pointer'
+                cursor: (loading || !sharedText.trim()) ? 'not-allowed' : 'pointer'
               }}
             >
               {loading ? <Sparkles size={18} className="animate-pulse" /> : <Send size={18} />}
@@ -130,7 +133,27 @@ function Summarizer() {
                 <Copy size={16} /> Copy
               </button>
             </div>
-            <p style={{ color: 'var(--text-main)', lineHeight: '1.8', fontSize: '1.1rem' }}>{summary}</p>
+            <p style={{ color: 'var(--text-main)', lineHeight: '1.8', fontSize: '1.1rem', marginBottom: '2rem' }}>{summary}</p>
+            <div style={{ display: 'flex', justifyContent: 'center' }}>
+              <button
+                onClick={() => navigate('/mcq')}
+                className="pulse-primary"
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '0.75rem',
+                  padding: '1rem 2.5rem',
+                  borderRadius: '1.5rem',
+                  background: 'linear-gradient(135deg, var(--secondary), var(--accent))',
+                  border: 'none',
+                  color: 'white',
+                  fontWeight: '700',
+                  fontSize: '1.1rem'
+                }}
+              >
+                <Brain size={20} /> Generate MCQ from this content
+              </button>
+            </div>
           </div>
         )}
       </div>
