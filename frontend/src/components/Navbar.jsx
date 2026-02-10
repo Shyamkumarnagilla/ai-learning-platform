@@ -39,6 +39,7 @@ const Navbar = () => {
                 <Link to="/" style={{ fontSize: '0.95rem', fontWeight: '500', opacity: 0.8 }}>Home</Link>
                 <Link to="/summarizer" style={{ fontSize: '0.95rem', fontWeight: '500', opacity: 0.8 }}>Summarizer</Link>
                 <Link to="/mcq" style={{ fontSize: '0.95rem', fontWeight: '500', opacity: 0.8 }}>MCQ Quiz</Link>
+                <Link to="/courses" style={{ fontSize: '0.95rem', fontWeight: '500', opacity: 0.8 }}>Courses</Link>
                 <button className="pulse-primary" style={{
                     background: 'var(--primary)',
                     color: 'white',

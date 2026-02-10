@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Home from "./pages/Home";
 import Summarizer from "./pages/Summarizer";
 import MCQ from "./pages/MCQ";
+import Courses from "./pages/Courses";
 import Navbar from "./components/Navbar";
 import { SharedProvider } from "./context/SharedContext";
 
@@ -15,6 +16,7 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/summarizer" element={<Summarizer />} />
           <Route path="/mcq" element={<MCQ />} />
+          <Route path="/courses" element={<Courses />} />
         </Routes>
       </Router>
     </SharedProvider>
