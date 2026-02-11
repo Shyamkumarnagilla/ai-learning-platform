@@ -9,22 +9,7 @@ const Home = () => {
         <div style={{ padding: '8rem 2rem 4rem', minHeight: '100vh', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
             {/* Hero Section */}
             <div className="animate-fade-in" style={{ textAlign: 'center', maxWidth: '800px', marginBottom: '6rem' }}>
-                <div style={{
-                    display: 'inline-flex',
-                    alignItems: 'center',
-                    gap: '0.5rem',
-                    padding: '0.5rem 1rem',
-                    borderRadius: '2rem',
-                    background: 'rgba(99, 102, 241, 0.1)',
-                    border: '1px solid rgba(99, 102, 241, 0.2)',
-                    color: 'var(--primary)',
-                    fontSize: '0.9rem',
-                    fontWeight: '600',
-                    marginBottom: '2rem'
-                }}>
-                    <Zap size={16} />
-                    The Future of Learning is Here
-                </div>
+
 
                 <h1 style={{ fontSize: 'clamp(2.5rem, 8vw, 4.5rem)', lineHeight: '1.1', marginBottom: '1.5rem', background: 'linear-gradient(to bottom, #fff, #94a3b8)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
                     Master Any Subject with <span style={{ color: 'var(--primary)' }}>Summative AI</span>
@@ -76,21 +61,21 @@ const Home = () => {
             }}>
                 <FeatureCard
                     icon={<Brain color="var(--primary)" />}
-                    title="AI Summarization"
+                    title="AI Summarizer"
                     description="Transform long lectures and articles into concise, actionable summaries instantly."
                     onClick={() => navigate('/summarizer')}
                 />
                 <FeatureCard
                     icon={<Target color="var(--secondary)" />}
-                    title="Smart Quiz Generation"
+                    title="Smart Quizzes"
                     description="Test your knowledge with AI-generated quizzes tailored to your learning material."
                     onClick={() => navigate('/mcq')}
                 />
                 <FeatureCard
                     icon={<BookOpen color="var(--accent)" />}
-                    title="Personalized Roadmap"
-                    description="Get a custom study plan that adapts to your pace and understanding."
-                    onClick={() => { }}
+                    title="YouTube Courses"
+                    description="Access curated, high-quality educational playlists from top YouTube creators."
+                    onClick={() => navigate('/courses')}
                 />
             </div>
         </div>

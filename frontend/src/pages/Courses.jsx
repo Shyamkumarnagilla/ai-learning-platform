@@ -18,15 +18,15 @@ const youtubeCourses = [
     },
     {
         id: 2,
-        title: "Deep Learning Full Course - Hindi",
-        channel: "Tech Burner",
+        title: "Complete Python for AI & ML | 2026 Hindi",
+        channel: "Krish Naik",
         platform: "YouTube",
         rating: 4.8,
-        views: "850k",
-        duration: "8h 20m",
+        views: "1.2M+",
+        duration: "18h 45m",
         price: "FREE",
-        image: "https://images.unsplash.com/photo-1620712943543-bcc4628c9759?auto=format&fit=crop&q=80&w=800",
-        keywords: ["deep learning", "neural network", "pytorch", "transformers", "hindi"]
+        image: "https://images.unsplash.com/photo-1515879218367-8466d910aaa4?auto=format&fit=crop&q=80&w=800",
+        keywords: ["python", "ai", "machine learning", "hindi", "data science"]
     },
     {
         id: 3,
@@ -100,24 +100,14 @@ const Courses = () => {
         return sorted.slice(0, 3);
     }, [sharedText]);
 
+    const handleImageError = (e) => {
+        // Ultimate fallback: A beautiful inline SVG if Unsplash fails
+        e.target.src = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='800' height='450' viewBox='0 0 800 450'%3E%3Crect width='800' height='450' fill='%231e1e2d'/%3E%3Cpath d='M400 150 L450 250 L350 250 Z' fill='%23ef4444' opacity='0.5'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' fill='white' font-family='sans-serif' font-size='24' font-weight='bold'%3EAI Course Thumbnail%3C/text%3E%3C/svg%3E";
+    };
+
     return (
         <div className="courses-container animate-fade-in">
             <header className="courses-header">
-                <div style={{
-                    display: 'inline-flex',
-                    alignItems: 'center',
-                    gap: '0.5rem',
-                    padding: '0.4rem 1rem',
-                    borderRadius: '2rem',
-                    background: 'rgba(239, 68, 68, 0.1)',
-                    border: '1px solid rgba(239, 68, 68, 0.2)',
-                    color: '#ef4444',
-                    fontSize: '0.85rem',
-                    fontWeight: '600',
-                    marginBottom: '1.5rem'
-                }}>
-                    <Youtube size={16} /> Free Learning from YouTube
-                </div>
                 <h1>Top <span style={{ color: '#ef4444' }}>YouTube</span> Recommendations</h1>
                 <p>Learn for free from the best Indian creators. We've handpicked the top 3 playlists that match your search.</p>
                 <div style={{
@@ -130,7 +120,7 @@ const Courses = () => {
                     display: 'inline-block',
                     border: '1px solid var(--glass-border)'
                 }}>
-                    🎬 These are external playlists. Watch them directly on YouTube for free.
+                    These are external playlists. Watch them directly on YouTube for free.
                 </div>
             </header>
 
@@ -138,7 +128,11 @@ const Courses = () => {
                 {recommendedCourses.map(course => (
                     <div key={course.id} className="course-card glass" style={{ borderBottom: '4px solid #ef4444' }}>
                         <div className="course-image">
-                            <img src={course.image} alt={course.title} />
+                            <img
+                                src={course.image}
+                                alt={course.title}
+                                onError={handleImageError}
+                            />
                             <div className="course-badge" style={{ backgroundColor: '#ef4444', display: 'flex', alignItems: 'center', gap: '4px' }}>
                                 <Youtube size={12} /> {course.platform}
                             </div>
@@ -186,7 +180,7 @@ const Courses = () => {
             </div>
 
             <div style={{ textAlign: 'center', marginTop: '5rem', padding: '3rem', borderRadius: '2rem', background: 'rgba(255,255,255,0.02)', border: '1px solid var(--glass-border)' }}>
-                <Youtube size={40} color="#ef4444" style={{ marginBottom: '1.5rem' }} />
+
                 <h2 style={{ marginBottom: '1rem' }}>Want more free content?</h2>
                 <p style={{ color: 'var(--text-muted)', marginBottom: '2rem' }}>Our AI picks the highest-rated Indian educational channels to save your time.</p>
                 <button onClick={() => window.location.href = '/summarizer'} className="btn-retry" style={{ padding: '1rem 2.5rem' }}>
