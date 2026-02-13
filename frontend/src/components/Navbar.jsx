@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Sparkles, BookOpen, MessageSquare, Menu } from 'lucide-react';
+import { Sparkles, BookOpen, MessageSquare, Menu, User } from 'lucide-react';
 
 const Navbar = () => {
     return (
@@ -40,16 +40,30 @@ const Navbar = () => {
                 <Link to="/summarizer" style={{ fontSize: '0.95rem', fontWeight: '500', opacity: 0.8 }}>Summarizer</Link>
                 <Link to="/mcq" style={{ fontSize: '0.95rem', fontWeight: '500', opacity: 0.8 }}>MCQ Quiz</Link>
                 <Link to="/courses" style={{ fontSize: '0.95rem', fontWeight: '500', opacity: 0.8 }}>Courses</Link>
-                <button className="pulse-primary" style={{
-                    background: 'var(--primary)',
-                    color: 'white',
-                    border: 'none',
-                    padding: '0.6rem 1.5rem',
-                    borderRadius: '1.5rem',
-                    fontWeight: '600',
-                    fontSize: '0.9rem'
-                }}>
-                    Get Started
+                <button className="glass" style={{
+                    width: '2.8rem',
+                    height: '2.8rem',
+                    borderRadius: '50%',
+                    border: '1px solid var(--glass-border)',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    cursor: 'pointer',
+                    background: 'rgba(255, 255, 255, 0.05)',
+                    transition: 'all 0.3s ease',
+                    color: 'white'
+                }}
+                    onMouseEnter={(e) => {
+                        e.currentTarget.style.background = 'var(--primary)';
+                        e.currentTarget.style.borderColor = 'var(--primary)';
+                        e.currentTarget.style.transform = 'scale(1.1)';
+                    }}
+                    onMouseLeave={(e) => {
+                        e.currentTarget.style.background = 'rgba(255, 255, 255, 0.05)';
+                        e.currentTarget.style.borderColor = 'var(--glass-border)';
+                        e.currentTarget.style.transform = 'scale(1)';
+                    }}>
+                    <User size={20} />
                 </button>
             </div>
         </nav>
