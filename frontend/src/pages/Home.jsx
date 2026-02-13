@@ -95,20 +95,22 @@ const FeatureCard = ({ icon, title, description, onClick }) => (
             e.currentTarget.style.borderColor = 'var(--glass-border)';
             e.currentTarget.style.background = 'rgba(255, 255, 255, 0.03)';
         }}>
-        <div style={{
-            width: '3.5rem',
-            height: '3.5rem',
-            borderRadius: '1rem',
-            background: 'rgba(255, 255, 255, 0.05)',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            marginBottom: '1.5rem',
-            border: '1px solid rgba(255, 255, 255, 0.1)'
-        }}>
-            {icon}
+        <div style={{ display: 'flex', alignItems: 'center', gap: '1.25rem', marginBottom: '1.5rem' }}>
+            <div style={{
+                width: '3.5rem',
+                height: '3.5rem',
+                borderRadius: '1rem',
+                background: 'rgba(255, 255, 255, 0.05)',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                border: '1px solid rgba(255, 255, 255, 0.1)',
+                flexShrink: 0
+            }}>
+                {icon}
+            </div>
+            <h3 style={{ fontSize: '1.5rem', fontWeight: '700', lineHeight: '1.3' }}>{title}</h3>
         </div>
-        <h3 style={{ fontSize: '1.5rem', marginBottom: '1rem', fontWeight: '700' }}>{title}</h3>
         <p style={{ color: 'var(--text-muted)', lineHeight: '1.7', fontSize: '1rem' }}>{description}</p>
         <div style={{
             marginTop: '1.5rem',
