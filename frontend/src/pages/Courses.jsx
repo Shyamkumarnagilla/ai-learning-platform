@@ -1,5 +1,5 @@
 import React, { useMemo } from 'react';
-import { Star, Clock, Users, ArrowUpRight, Youtube, BookOpen } from 'lucide-react';
+import { Star, Clock, Users, ArrowUpRight, BookOpen } from 'lucide-react';
 import { useShared } from '../context/SharedContext';
 import '../styles/courses.css';
 
@@ -102,14 +102,14 @@ const Courses = () => {
 
     const handleImageError = (e) => {
         // Ultimate fallback: A beautiful inline SVG if Unsplash fails
-        e.target.src = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='800' height='450' viewBox='0 0 800 450'%3E%3Crect width='800' height='450' fill='%231e1e2d'/%3E%3Cpath d='M400 150 L450 250 L350 250 Z' fill='%23ef4444' opacity='0.5'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' fill='white' font-family='sans-serif' font-size='24' font-weight='bold'%3EAI Course Thumbnail%3C/text%3E%3C/svg%3E";
+        e.target.src = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='800' height='450' viewBox='0 0 800 450'%3E%3Crect width='800' height='450' fill='%231e1e2d'/%3E%3Cpath d='M400 150 L450 250 L350 250 Z' fill='%236366f1' opacity='0.5'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' fill='white' font-family='sans-serif' font-size='24' font-weight='bold'%3EAI Course Thumbnail%3C/text%3E%3C/svg%3E";
     };
 
     return (
         <div className="courses-container animate-fade-in">
             <header className="courses-header">
-                <h1>Top <span style={{ color: '#ef4444' }}>YouTube</span> Recommendations</h1>
-                <p>Learn for free from the best Indian creators. We've handpicked the top 3 playlists that match your search.</p>
+                <h1>Top <span style={{ color: 'var(--primary)' }}>YouTube</span> Recommendations</h1>
+                <p>Learn for free from the best Indian creators. We've handpicked the top playlists that match your search.</p>
                 <div style={{
                     marginTop: '1.5rem',
                     fontSize: '0.9rem',
@@ -126,15 +126,15 @@ const Courses = () => {
 
             <div className="courses-grid" style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(340px, 1fr))', justifyContent: 'center' }}>
                 {recommendedCourses.map(course => (
-                    <div key={course.id} className="course-card glass" style={{ borderBottom: '4px solid #ef4444' }}>
+                    <div key={course.id} className="course-card glass" style={{ borderBottom: '4px solid var(--primary)' }}>
                         <div className="course-image">
                             <img
                                 src={course.image}
                                 alt={course.title}
                                 onError={handleImageError}
                             />
-                            <div className="course-badge" style={{ backgroundColor: '#ef4444', display: 'flex', alignItems: 'center', gap: '4px' }}>
-                                <Youtube size={12} /> {course.platform}
+                            <div className="course-badge" style={{ backgroundColor: 'var(--primary)', display: 'flex', alignItems: 'center', gap: '4px' }}>
+                                {course.platform}
                             </div>
                         </div>
                         <div className="course-content">
@@ -143,35 +143,48 @@ const Courses = () => {
                                 <span><Users size={14} /> {course.views} Views</span>
                                 <span><Clock size={14} /> {course.duration}</span>
                             </div>
-                            <h3 className="course-title" style={{ minHeight: '3.5rem' }}>{course.title}</h3>
-                            <div className="course-instructor">
-                                <div className="instructor-avatar" style={{ background: '#ef4444' }}>
-                                    {course.channel[0]}
-                                </div>
-                                <div>
-                                    <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>Channel</div>
-                                    <span className="instructor-name" style={{ color: 'white', fontWeight: '600' }}>{course.channel}</span>
-                                </div>
-                            </div>
-                            <div className="course-footer" style={{ borderTop: '1px solid rgba(255,255,255,0.05)', paddingTop: '1.2rem' }}>
-                                <div>
-                                    <span className="course-price" style={{ fontSize: '1.8rem', color: '#22c55e' }}>
-                                        {course.price}
-                                    </span>
+                            <h3 className="course-title" style={{ minHeight: '3rem', fontSize: '1.1rem', lineHeight: '1.4' }}>{course.title}</h3>
+                            <div className="course-instructor" style={{
+                                display: 'flex',
+                                alignItems: 'center',
+                                justifyContent: 'space-between',
+                                marginTop: '1.5rem',
+                                borderTop: '1px solid rgba(255,255,255,0.05)',
+                                paddingTop: '1.2rem'
+                            }}>
+                                <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+                                    <div className="instructor-avatar" style={{
+                                        background: 'var(--primary)',
+                                        width: '2.5rem',
+                                        height: '2.5rem',
+                                        display: 'flex',
+                                        alignItems: 'center',
+                                        justifyContent: 'center',
+                                        borderRadius: '50%',
+                                        fontWeight: '700',
+                                        fontSize: '1rem'
+                                    }}>
+                                        {course.channel[0]}
+                                    </div>
+                                    <div>
+                                        <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>Channel</div>
+                                        <span className="instructor-name" style={{ color: 'white', fontWeight: '600', fontSize: '0.95rem' }}>{course.channel}</span>
+                                    </div>
                                 </div>
                                 <button className="btn-enroll" style={{
-                                    background: '#ef4444',
+                                    background: 'var(--primary)',
                                     display: 'flex',
                                     alignItems: 'center',
                                     gap: '0.5rem',
-                                    padding: '0.8rem 1.8rem',
-                                    borderRadius: '1.2rem',
+                                    padding: '0.6rem 1.25rem',
+                                    borderRadius: '1rem',
                                     border: 'none',
                                     color: 'white',
                                     fontWeight: '700',
-                                    boxShadow: '0 4px 15px rgba(239, 68, 68, 0.4)'
+                                    fontSize: '0.85rem',
+                                    boxShadow: '0 4px 15px rgba(99, 102, 241, 0.4)'
                                 }}>
-                                    Watch Now <ArrowUpRight size={18} />
+                                    Watch <ArrowUpRight size={16} />
                                 </button>
                             </div>
                         </div>
@@ -183,7 +196,16 @@ const Courses = () => {
 
                 <h2 style={{ marginBottom: '1rem' }}>Want more free content?</h2>
                 <p style={{ color: 'var(--text-muted)', marginBottom: '2rem' }}>Our AI picks the highest-rated Indian educational channels to save your time.</p>
-                <button onClick={() => window.location.href = '/summarizer'} className="btn-retry" style={{ padding: '1rem 2.5rem' }}>
+                <button onClick={() => window.location.href = '/summarizer'} className="btn-retry" style={{
+                    padding: '1rem 2.5rem',
+                    background: 'var(--primary)',
+                    borderRadius: '2rem',
+                    border: 'none',
+                    color: 'white',
+                    fontWeight: '700',
+                    fontSize: '1rem',
+                    boxShadow: '0 4px 15px rgba(99, 102, 241, 0.3)'
+                }}>
                     Generate New Recommendation
                 </button>
             </div>
