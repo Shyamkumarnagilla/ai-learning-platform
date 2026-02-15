@@ -22,7 +22,7 @@ const MCQ = () => {
         setLoading(true);
         setError("");
         try {
-            const response = await fetch("http://127.0.0.1:8000/generate-mcqs", {
+            const response = await fetch("http://localhost:8000/generate-mcqs", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ text: textToUse }),

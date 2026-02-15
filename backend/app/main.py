@@ -7,14 +7,16 @@ app = FastAPI(title="AI Learning Platform")
 # ✅ CORS FIX (THIS IS THE IMPORTANT PART)
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:5173"],
+    allow_origins=["http://localhost:5173", "http://127.0.0.1:5173"],
     allow_credentials=True,
-    allow_methods=["*"],   # IMPORTANT
-    allow_headers=["*"],   # IMPORTANT
+    allow_methods=["*"],
+    allow_headers=["*"],
 )
 
 # Load model once
+print("Loading AI models... this may take a moment.")
 summarizer = pipeline("summarization", model="facebook/bart-large-cnn")
+print("AI models loaded successfully. Backend is ready.")
 
 @app.get("/")
 def read_root():
