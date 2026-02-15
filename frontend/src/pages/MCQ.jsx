@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { ChevronRight, RotateCcw, Home as HomeIcon, Trophy, Brain, Sparkles, Send } from 'lucide-react';
+// No icons used as per request
 import { useShared } from '../context/SharedContext';
 import '../styles/mcq.css';
 
@@ -75,34 +75,29 @@ const MCQ = () => {
 
     const progress = questions.length > 0 ? ((currentQuestion + 1) / questions.length) * 100 : 0;
 
-    if (loading) {
-        return (
-            <div className="mcq-container">
+    const renderContent = () => {
+        if (loading) {
+            return (
                 <div className="quiz-card glass animate-fade-in" style={{ textAlign: 'center', padding: '60px' }}>
-                    <div className="pulse-primary" style={{
-                        width: '80px', height: '80px', borderRadius: '50%',
-                        background: 'var(--primary)', margin: '0 auto 24px',
-                        display: 'flex', alignItems: 'center', justifyContent: 'center'
-                    }}>
-                        <Sparkles size={40} color="white" className="animate-pulse" />
-                    </div>
-                    <h2 style={{ fontSize: '1.8rem', marginBottom: '12px' }}>Generating Your Quiz...</h2>
-                    <p style={{ color: 'var(--text-muted)' }}>AI is analyzing your text to create unique questions.</p>
+                    <h2 style={{ fontSize: '1.8rem', marginBottom: '12px' }}>Generating Knowledge Check...</h2>
+                    <p style={{ color: 'var(--text-muted)' }}>Our AI is analyzing the material to create a unique evaluation for you.</p>
                 </div>
-            </div>
-        );
-    }
+            );
+        }
 
-    if (!sharedText && questions.length === 0) {
-        return (
-            <div className="mcq-container">
-                <div className="quiz-card glass animate-fade-in" style={{ maxWidth: '600px' }}>
-                    <div style={{ textAlign: 'center', marginBottom: '32px' }}>
-                        <Brain size={48} color="var(--primary)" style={{ marginBottom: '16px' }} />
-                        <h2 style={{ fontSize: '2rem', marginBottom: '12px' }}>Generate Custom Quiz</h2>
-                        <p style={{ color: 'var(--text-muted)' }}>Paste your study material below and let AI create a personalized quiz for you.</p>
-                    </div>
+        if (error && questions.length === 0) {
+            return (
+                <div className="quiz-card glass animate-fade-in" style={{ textAlign: 'center' }}>
+                    <h2 style={{ marginBottom: '12px' }}>Connection Issues</h2>
+                    <p style={{ color: '#ef4444', marginBottom: '24px' }}>{error}</p>
+                    <button className="btn-retry" onClick={() => setError("")}>Try Again</button>
+                </div>
+            );
+        }
 
+        if (questions.length === 0) {
+            return (
+                <div className="quiz-card glass animate-fade-in">
                     <textarea
                         className="glass"
                         style={{
@@ -111,117 +106,108 @@ const MCQ = () => {
                             color: 'white', border: '1px solid var(--glass-border)',
                             fontSize: '1rem', outline: 'none', marginBottom: '20px'
                         }}
-                        placeholder="Paste your content here..."
+                        placeholder="Paste your study material here..."
                         onChange={(e) => setSharedText(e.target.value)}
                         value={sharedText}
                     ></textarea>
 
-                    {error && <p style={{ color: '#ef4444', marginBottom: '16px', fontSize: '0.9rem' }}>{error}</p>}
-
                     <button
                         className="btn-next pulse-primary"
-                        style={{ width: '100%', justifyContent: 'center', padding: '16px' }}
+                        style={{ width: '100%', justifyContent: 'center', padding: '16px', cursor: !sharedText.trim() ? 'not-allowed' : 'pointer' }}
                         onClick={() => fetchMCQs()}
                         disabled={!sharedText.trim()}
                     >
-                        <Send size={20} /> Generate Quiz
+                        Generate Knowledge Check
+                    </button>
+                </div>
+            );
+        }
+
+        if (showResult) {
+            return (
+                <div className="quiz-card glass animate-fade-in">
+                    <div className="result-container">
+                        <div className="score-circle">
+                            <span className="score-value">{score}/{questions.length}</span>
+                            <span className="score-label">Points Earned</span>
+                        </div>
+                        <h2 className="result-title">
+                            {score === questions.length ? "Mastery Achieved!" : score >= questions.length / 2 ? "Great Progress!" : "Keep Practicing"}
+                        </h2>
+                        <p className="result-message">
+                            {score === questions.length
+                                ? "You have demonstrated complete understanding of the material."
+                                : "Review the content again to master all the key concepts."}
+                        </p>
+                        <div className="result-actions">
+                            <button className="btn-retry" onClick={resetQuiz}>
+                                New Evaluation
+                            </button>
+                            <button className="btn-next" onClick={() => window.location.href = '/'}>
+                                Return Home
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            );
+        }
+
+        return (
+            <div className="quiz-card glass animate-fade-in">
+                <div className="quiz-header">
+                    <div className="progress-info">
+                        <span className="question-status">Evaluation {currentQuestion + 1} of {questions.length}</span>
+                        <span>{Math.round(progress)}% Complete</span>
+                    </div>
+                    <div className="progress-bar-bg">
+                        <div
+                            className="progress-bar-fill"
+                            style={{ width: `${progress}%` }}
+                        ></div>
+                    </div>
+                </div>
+
+                <div className="quiz-body">
+                    <h2 className="question-text">{questions[currentQuestion].question}</h2>
+
+                    <div className="options-grid">
+                        {questions[currentQuestion].options.map((option, index) => (
+                            <button
+                                key={index}
+                                className={`option-button ${selectedOption === index ? 'selected' : ''}`}
+                                onClick={() => handleOptionSelect(index)}
+                            >
+                                <div className="option-indicator"></div>
+                                {option}
+                            </button>
+                        ))}
+                    </div>
+                </div>
+
+                <div className="quiz-footer">
+                    <button
+                        className="btn-next"
+                        onClick={handleNext}
+                        disabled={selectedOption === null}
+                    >
+                        {currentQuestion + 1 === questions.length ? "Finalize Mastery" : "Next Challenge"}
                     </button>
                 </div>
             </div>
         );
-    }
-
-    if (error && questions.length === 0) {
-        return (
-            <div className="mcq-container">
-                <div className="quiz-card glass animate-fade-in" style={{ textAlign: 'center', maxWidth: '500px' }}>
-                    <div style={{ color: '#ef4444', marginBottom: '20px' }}>⚠️</div>
-                    <h2 style={{ marginBottom: '12px' }}>Oops! Something went wrong</h2>
-                    <p style={{ color: 'var(--text-muted)', marginBottom: '24px' }}>{error}</p>
-                    <button className="btn-retry" onClick={() => setError("")}>Try Again</button>
-                </div>
-            </div>
-        );
-    }
-
-    if (showResult) {
-        return (
-            <div className="mcq-container animate-fade-in">
-                <div className="quiz-card glass">
-                    <div className="result-container">
-                        <div className="score-circle">
-                            <Trophy size={48} color="var(--primary)" style={{ marginBottom: '1rem' }} />
-                            <span className="score-value">{score}/{questions.length}</span>
-                            <span className="score-label">Points</span>
-                        </div>
-                        <h2 className="result-title">
-                            {score === questions.length ? "Perfect Score! 🌟" : score >= questions.length / 2 ? "Great Job! 👏" : "Keep Learning! 📚"}
-                        </h2>
-                        <p className="result-message">
-                            {score === questions.length
-                                ? "Incredible! You have a perfect grasp of the material."
-                                : "Good effort! Review the content again to master all the concepts."}
-                        </p>
-                        <div className="result-actions">
-                            <button className="btn-retry" onClick={resetQuiz}>
-                                <RotateCcw size={18} /> New Quiz
-                            </button>
-                            <button className="btn-next" onClick={() => window.location.href = '/'}>
-                                <HomeIcon size={18} /> Home
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        );
-    }
+    };
 
     return (
-        <div className="mcq-container animate-fade-in">
-            {questions.length > 0 && (
-                <div className="quiz-card glass">
-                    <div className="quiz-header">
-                        <div className="progress-info">
-                            <span className="question-status">Question {currentQuestion + 1} of {questions.length}</span>
-                            <span>{Math.round(progress)}% Complete</span>
-                        </div>
-                        <div className="progress-bar-bg">
-                            <div
-                                className="progress-bar-fill"
-                                style={{ width: `${progress}%` }}
-                            ></div>
-                        </div>
-                    </div>
-
-                    <div className="quiz-body">
-                        <h2 className="question-text">{questions[currentQuestion].question}</h2>
-
-                        <div className="options-grid">
-                            {questions[currentQuestion].options.map((option, index) => (
-                                <button
-                                    key={index}
-                                    className={`option-button ${selectedOption === index ? 'selected' : ''}`}
-                                    onClick={() => handleOptionSelect(index)}
-                                >
-                                    <div className="option-indicator"></div>
-                                    {option}
-                                </button>
-                            ))}
-                        </div>
-                    </div>
-
-                    <div className="quiz-footer">
-                        <button
-                            className="btn-next"
-                            onClick={handleNext}
-                            disabled={selectedOption === null}
-                        >
-                            {currentQuestion + 1 === questions.length ? "Finish Quiz" : "Next Question"}
-                            <ChevronRight size={20} />
-                        </button>
-                    </div>
-                </div>
-            )}
+        <div style={{ padding: '8rem 2rem 4rem', minHeight: '100vh', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+            <div className="animate-fade-in" style={{ width: '100%', maxWidth: '800px' }}>
+                <h1 style={{ textAlign: 'center', marginBottom: '1rem', fontSize: '3rem' }}>
+                    MCQ <span style={{ color: 'var(--primary)' }}>Generator</span>
+                </h1>
+                <p style={{ textAlign: 'center', color: 'var(--text-muted)', marginBottom: '3rem' }}>
+                    Validate your learning with instant evaluations generated from your study material.
+                </p>
+                {renderContent()}
+            </div>
         </div>
     );
 };
