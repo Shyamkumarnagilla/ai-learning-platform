@@ -122,7 +122,10 @@ const Navbar = () => {
 
                             <div style={{ borderTop: '1px solid var(--glass-border)', paddingTop: '1rem', display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
                                 <button
-                                    onClick={() => alert('Logout functionality will be integrated with the backend.')}
+                                    onClick={() => {
+                                        localStorage.removeItem('isAuthenticated');
+                                        window.location.href = '/login';
+                                    }}
                                     style={{
                                         marginTop: '0.5rem',
                                         display: 'flex',
